@@ -1,6 +1,7 @@
-import { Inter,Outfit} from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
-
+import React_query_Provider from "@/components/react_query/React_query_Provider";
+import Redux_Provider from "@/components/redux_provider/Redux_Provider";
 const inter = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
@@ -12,10 +13,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
-        
-        {children}
-        </div>
+        <React_query_Provider>
+          <Redux_Provider>
+            <div>{children}</div>
+          </Redux_Provider>
+        </React_query_Provider>
       </body>
     </html>
   );
