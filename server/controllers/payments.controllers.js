@@ -66,6 +66,7 @@ exports.verifyPayment = async (req, res) => {
   try {
     const receivedSignature = req.headers["x-razorpay-signature"];
     console.log(receivedSignature);
+    console.log(req)
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET)
       .update(JSON.stringify(req.body))

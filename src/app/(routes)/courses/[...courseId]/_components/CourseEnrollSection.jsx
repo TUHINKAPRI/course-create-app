@@ -1,35 +1,32 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 import Image from "next/image";
+import { LoaderCircle } from "lucide-react";
 import { useCreatePayment } from "@/hooks/course_hook";
 function CourseEnrollSection({ course }) {
-  console.log(process.env.RAZORPAY_KEY)
-  const { mutate,data, isLoading, isError } = useCreatePayment();
-  console.log(data)
-
-
-if(data?.data?.success){
-  var options = {
-    key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
-    name: "Study Sphere",
-    currency: data?.data?.currency,
-    amount: data?.data?.amount,
-    order_id: data?.data?.id,
-    description: "Thankyou for your test donation",
-    image: data?.data?.thumbnail,
-    handler: function (response) {
-      console.log(response)
-      // Validate payment at server - using webhooks is a better idea.
-      alert(response.razorpay_payment_id);
-      alert(response.razorpay_order_id);
-      alert(response.razorpay_signature);
-    },
-    
-  };
-  const paymentObject = new window.Razorpay(options);
+  const succesHandler = (data) => {
+    console.log(data);
+    var options = {
+      key: process.env.RAZORPAY_KEY,
+      name: "Study Sphere",
+      currency: data?.data?.currency,
+      amount: data?.data?.amount,
+      order_id: data?.data?.id,
+      description: "Thankyou for your test donation",
+      image: data?.data?.thumbnail,
+      handler: function (response) {
+        console.log(response);
+        
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+      },
+    };
+    const paymentObject = new window.Razorpay(options);
     paymentObject.open();
-}
-
+  };
+  const { mutate, data, status, isError } = useCreatePayment(succesHandler);
+  console.log(status);
   const initializeRazorpay = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -45,15 +42,14 @@ if(data?.data?.success){
       document.body.appendChild(script);
     });
   };
-  const clickHandler = async(data) => {
+  const clickHandler = async (data) => {
     const res = await initializeRazorpay();
 
     if (!res) {
       alert("Razorpay SDK Failed to load");
       return;
     }
-    mutate({courseId:data});
-    
+    mutate({ courseId: data });
   };
 
   return (
@@ -66,8 +62,14 @@ if(data?.data?.success){
         onClick={() => {
           clickHandler(course._id);
         }}
-        className="bg-white text-primary hover:bg-white hover:text-primary"
+        disabled={status === "pending" && true}
+        className={`bg-white  text-primary hover:bg-white hover:text-primary`}
       >
+        <LoaderCircle
+          className={`animate-spin  me-2 ${
+            status == "pending" ? "block" : "hidden"
+          }   `}
+        />
         Enroll Now Just{" "}
         <span className="mx-2">
           <Image src="/rupee.png" alt="logo" height={15} width={15} />

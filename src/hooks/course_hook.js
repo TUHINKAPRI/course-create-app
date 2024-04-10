@@ -23,17 +23,13 @@ export const useFetchSignleCourse = (data) => {
     queryFn: () => GET_SINGLE_COURSE(data),
   });
 };
-export const useCreatePayment = () => {
+export const useCreatePayment = (succesHandler) => {
   return useMutation({
     mutationFn: CREATE_PAYMENT,
+    cacheTime:0,
     onSuccess: (data) => {
-      console.log(data);
-      // if (data?.data?.success) {
-
-      //   toast.success(data?.data?.message);
-      // }
+      succesHandler(data)
       return data;
-      // queryClient.invalidateQueries({ queryKey: ['todos'] })
     },
     onError: (error) => {
       console.log(error);
