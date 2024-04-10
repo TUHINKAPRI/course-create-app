@@ -3,6 +3,7 @@ import {
   GET_ALL_COURSES,
   GET_SINGLE_COURSE,
 } from "@/utils/services/course_api";
+import { CREATE_PAYMENT } from "@/utils/services/payment_api";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 export const useGetAllCourses = () => {
@@ -20,5 +21,25 @@ export const useFetchSignleCourse = (data) => {
   return useQuery({
     queryKey: ["fetch_single_course"],
     queryFn: () => GET_SINGLE_COURSE(data),
+  });
+};
+export const useCreatePayment = () => {
+  return useMutation({
+    mutationFn: CREATE_PAYMENT,
+    onSuccess: (data) => {
+      console.log(data);
+      // if (data?.data?.success) {
+
+      //   toast.success(data?.data?.message);
+      // }
+      return data;
+      // queryClient.invalidateQueries({ queryKey: ['todos'] })
+    },
+    onError: (error) => {
+      console.log(error);
+      if (error?.response?.data?.success === false) {
+        toast.error(error?.response?.data?.message);
+      }
+    },
   });
 };

@@ -7,6 +7,10 @@ exports.capturePayment = async (req, res) => {
   try {
     const { courseId } = req.body;
     const userId = req.user._id;
+
+
+
+
     if (!courseId) {
       return res.status(400).json({
         success: false,
@@ -20,9 +24,9 @@ exports.capturePayment = async (req, res) => {
         message: "Please select a valid course",
       });
     }
-    const uid = mongoose.Types.ObjectId(userId);
+    const uid =new mongoose.Types.ObjectId(userId);
     const isExistUser = findCourse.studentJoined.includes(uid);
-    if (!isExistUser) {
+    if (isExistUser) {
       return res.status(200).json({
         success: false,
         message: "User already purches this course",
@@ -38,7 +42,8 @@ exports.capturePayment = async (req, res) => {
       },
     };
     const response = await instance.orders.create(options);
-    res.status.json({
+    console.log(response)
+    res.status(200).json({
       success: true,
       courseName: findCourse.name,
       courseDescription: findCourse.description,
@@ -48,6 +53,8 @@ exports.capturePayment = async (req, res) => {
       amount: response.amount,
     });
   } catch (err) {
+
+    console.log(err)
     res.status(500).json({
       success: false,
       message: "Internal server error",
