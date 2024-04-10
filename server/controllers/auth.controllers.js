@@ -45,21 +45,19 @@ exports.sendOtp = async (req, res) => {
 exports.signup = async (req, res) => {
   try {
     const {
-      firstName,
-      lastName,
+      name,
       email,
       password,
       confirmPassword,
       accountType,
-      otp,
+      
     } = req.body;
     console.log(req.body)
     if (
-      !firstName ||
-      !lastName ||
+      !name ||
       !email ||
       !password ||
-      !otp ||
+      !confirmPassword ||
       !accountType
     ) {
       return res.status(403).json({
@@ -83,39 +81,38 @@ exports.signup = async (req, res) => {
       });
     }
 
-    const findOtp = await Otp.findOne({ email })
-      .sort({ createdAt: -1 })
-      .limit(1);
+    // const findOtp = await Otp.findOne({ email })
+    //   .sort({ createdAt: -1 })
+    //   .limit(1);
 
-    if (!findOtp) {
-      return res.status(400).json({
-        success: false,
-        message: "Otp is not found",
-      });
-    }
-    if (otp !== findOtp.otp) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid otp",
-      });
-    }
+    // if (!findOtp) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Otp is not found",
+    //   });
+    // }
+    // if (otp !== findOtp.otp) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Invalid otp",
+    //   });
+    // }
     const hashPassword = await bcrypt.hash(password, 10);
 
-    const profile = await Profile.create({
-      gender: null,
-      about: null,
-      contactNumber: null,
-      dateOfBirth: null,
-    });
+    // const profile = await Profile.create({
+    //   gender: null,
+    //   about: null,
+    //   contactNumber: null,
+    //   dateOfBirth: null,
+    // });
 
     const newUser = await User.create({
-      firstName,
-      lastName,
+     name,
       email,
       accountType,
       password: hashPassword,
-      aditionalDetails: profile._id,
-      image: `https://api.dicebear.com/7.x/initials/svg?seed=${firstName} ${lastName}`,
+      // aditionalDetails: profile._id,
+      profile_image: `https://api.dicebear.com/7.x/initials/svg?seed=${name} `,
     });
     const { password: pass, ...rest } = newUser._doc;
     res.status(200).json({
@@ -124,6 +121,7 @@ exports.signup = async (req, res) => {
       user: rest,
     });
   } catch (err) {
+    console.log(err)
     res.status(500).json({
       success: false,
       message: err,

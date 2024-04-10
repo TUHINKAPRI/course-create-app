@@ -11,8 +11,8 @@ const {
 } = require("../controllers/resetPassword");
 const userRouter = express.Router();
 
-userRouter.route("/signup").post(signup);
-userRouter.route("/signin").post(signin);
+userRouter.route("/sign-up").post(signup);
+userRouter.route("/sign-in").post(signin);
 userRouter.post("/send-otp", sendOtp);
 userRouter.post("/change-password", changePassword);
 

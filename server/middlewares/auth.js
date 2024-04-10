@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 exports.auth = async (req, res, next) => {
   try {
     const token = req.headers["x-access-token"] || req.cookies.token;
+    console.log(token)
     if (!token) {
       return res.status(400).json({
         success: false,

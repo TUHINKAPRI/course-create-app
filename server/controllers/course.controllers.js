@@ -5,23 +5,28 @@ const { imageUploader } = require("../utils/imageUploader");
 
 exports.createCourse = async (req, res) => {
   try {
-    const { name, description, whatWeWillLearn, price, tags, category } =
+    const { courseName, description, whatWeWillLearn, price, tags:_tags, category,requirements,language,thumbnail } =
       req.body;
-    const thumbnail = req.files.thumbnail;
+    // const thumbnail = req.files?.thumbnail;
     if (
-      !name ||
+      !courseName ||
       !description ||
-      !whatWeWillLearn ||
+      !whatWeWillLearn.length ||
       !price ||
-      !tags ||
-      !thumbnail
+      !_tags.length ||
+      !thumbnail ||
+      !category ||
+      !requirements.length ||
+      !language.length
     ) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
-    //Validation for category field
+   
+
+    // Validation for category field
     const findCategory = await Category.findById(category);
     if (!findCategory) {
       return res.status(400).json({
@@ -29,7 +34,7 @@ exports.createCourse = async (req, res) => {
         message: "Category doesn't exist",
       });
     }
-    //Validation for instructor
+    // Validation for instructor
     const findInstructor = await User.findById(req.user._id);
     if (!findInstructor) {
       return res.Status(400).json({
@@ -39,16 +44,18 @@ exports.createCourse = async (req, res) => {
     }
 
     //upload to cloudinary
-    const upload = await imageUploader(thumbnail, process.env.FOLDER_NAME);
+    // const upload = await imageUploader(thumbnail, process.env.FOLDER_NAME);
     const newCourse = await Course.create({
-      name,
+      courseName,
       description,
       instructor: findInstructor._id,
-      whatWeWillLearn,
+      whatWeWillLearn:JSON.parse(whatWeWillLearn),
       category: findCategory._id,
       price,
-      thumbnail: upload.secure_url,
-      tag: tag,
+      thumbnail:thumbnail ,
+      tags:JSON.parse(_tags),
+      requirements:JSON.parse(requirements),
+      language:JSON.parse(language)
     });
     //add this course into the instructor schema
     await User.findByIdAndUpdate(
@@ -70,7 +77,7 @@ exports.createCourse = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Course created successfully",
-      course: newCourse,
+      course:newCourse ,
     });
   } catch (err) {
     console.log(err);
@@ -81,7 +88,7 @@ exports.createCourse = async (req, res) => {
   }
 };
 exports.getAllCourses = async (req, res) => {
-  console.log(req.query);
+  // console.log(req.query);
   try {
     const filter = {};
     if (req.query.category) {
@@ -89,7 +96,7 @@ exports.getAllCourses = async (req, res) => {
     }
     const course = await Course.find(filter)
       .populate("instructor")
-      .populate("category");
+      
     res.status(200).json({
       success: true,
       message: "Course fetch successfully",
@@ -109,10 +116,8 @@ exports.getCourseDetails = async (req, res) => {
     const { courseId } = req.params;
     const courseDetails = await Course.findOne({ _id: courseId })
       .populate({
-        path: "instructor",
-        populate: {
-          path: "aditionalDetails",
-        },
+        path: "instructor"
+       
       })
       .populate("category")
       .populate({

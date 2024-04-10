@@ -2,6 +2,9 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import React_query_Provider from "@/components/react_query/React_query_Provider";
 import Redux_Provider from "@/components/redux_provider/Redux_Provider";
+import toast, { Toaster } from "react-hot-toast";
+import Navbar from "./_components/Navbar";
+import Footer from "./_components/Footer";
 const inter = Outfit({ subsets: ["latin"] });
 
 export const metadata = {
@@ -15,7 +18,11 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <React_query_Provider>
           <Redux_Provider>
-            <div>{children}</div>
+            <div className="relative">
+              <Navbar />
+              <div>{children}</div>
+            </div>
+            <Toaster />
           </Redux_Provider>
         </React_query_Provider>
       </body>

@@ -7,8 +7,8 @@ exports.createSubSection = async (req, res) => {
   try {
     const { title, description, timeDuration } = req.body;
     const { sectionId, courseId } = req.params;
-    const { videoUrl } = req.files;
-    console.log(videoUrl);
+    const  videoUrl  = req.files?.videoUrl;
+    // console.log(videoUrl);
     if (!title || !description || !timeDuration || !sectionId || !videoUrl) {
       return res.status(400).json({
         success: false,
@@ -28,6 +28,7 @@ exports.createSubSection = async (req, res) => {
       description,
       timeDuration,
       videoUrl: response.secure_url,
+      // videoUrl
     });
     const updatedSection = await Section.findByIdAndUpdate(
       { _id: sectionId },

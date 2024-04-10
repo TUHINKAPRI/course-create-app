@@ -7,6 +7,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import CourseCard from "./CourseCard";
+import { Search, BellDot } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function CourseList() {
   const { data: course, isLoading: course_loading } = useGetAllCourses();
@@ -16,6 +18,10 @@ function CourseList() {
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
         <h className="text-[20px] text-primary fond-blod">All Courses</h>
+        {/* <div className="flex border gap-2 p-2 rounded-md">
+          <Search className="h-5 w-5 " />
+          <input type="text" placeholder="Search..." className="outline-none" />
+        </div> */}
         <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter" />
@@ -27,7 +33,7 @@ function CourseList() {
               </>
             ) : (
               <>
-                {categories?.data?.data?.map((category, index) => (
+                {categories?.data?.categories?.map((category, index) => (
                   <SelectItem value={category?._id} key={index}>
                     {category?.name}
                   </SelectItem>
@@ -40,15 +46,32 @@ function CourseList() {
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
         {course_loading ? (
           <>
-            <span>Loading...</span>
+            {[1, 2, 3, 4, 5, 6].map((ele, index) => (
+              <div
+                className="w-full h-[240px]  rounded-xl bg-slate-200 p-2 m-2 animate-pulse"
+                key={index}
+              >
+                <Skeleton className="h-[170px]  full rounded-xl" />
+                <div className="space-y-2 mt-3">
+                  <Skeleton className="h-4 w-full " />
+                  <Skeleton className="h-4 w-full  " />
+                </div>
+              </div>
+            ))}
           </>
         ) : (
           <>
-            {course?.data?.data?.map((course, index) => (
+            {course?.data?.course?.length > 0 ? (
               <>
-                <CourseCard key={index} course={course} />
+                {course?.data?.course?.map((course, index) => (
+                  <>
+                    <CourseCard key={index} course={course} />
+                  </>
+                ))}
               </>
-            ))}
+            ) : (
+              <div>No data Found for this category</div>
+            )}
           </>
         )}
       </div>
