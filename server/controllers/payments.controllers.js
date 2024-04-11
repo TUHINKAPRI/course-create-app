@@ -74,8 +74,8 @@ exports.verifyPayment = async (req, res) => {
     console.log(expectedSignature);
     if (receivedSignature == expectedSignature) {
       console.log("payment authorized");
-      const { userId, courseId } = req.body.payload.payment.entity.notes;
-      console.log(userId, courseId);
+      const data = req.body.payload;
+      console.log(data);
       const updatedCourse = await Course.findByIdAndUpdate(
         { _id: courseId },
         {
