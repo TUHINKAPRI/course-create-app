@@ -76,36 +76,36 @@ exports.verifyPayment = async (req, res) => {
       console.log("payment authorized");
       const data = req.body.payload;
       console.log(data);
-      const updatedCourse = await Course.findByIdAndUpdate(
-        { _id: courseId },
-        {
-          $push: {
-            studentJoind: userId,
-          },
-        },
-        { new: true }
-      );
-      if (!updatedCourse) {
-        return res.status(400).json({
-          success: false,
-          message: "Somthing went wrong",
-        });
-      }
-      const updatedUser = await User.findByIdAndUpdate(
-        { _id: userId },
-        {
-          $push: {
-            courses: updatedCourse._id,
-          },
-        },
-        { new: true }
-      );
-      //mail send
-      const email = await mailsender(
-        userId.email,
-        "confirmmation mail",
-        "successfully enrolled this course"
-      );
+      // const updatedCourse = await Course.findByIdAndUpdate(
+      //   { _id: courseId },
+      //   {
+      //     $push: {
+      //       studentJoind: userId,
+      //     },
+      //   },
+      //   { new: true }
+      // );
+      // if (!updatedCourse) {
+      //   return res.status(400).json({
+      //     success: false,
+      //     message: "Somthing went wrong",
+      //   });
+      // }
+      // const updatedUser = await User.findByIdAndUpdate(
+      //   { _id: userId },
+      //   {
+      //     $push: {
+      //       courses: updatedCourse._id,
+      //     },
+      //   },
+      //   { new: true }
+      // );
+      // //mail send
+      // const email = await mailsender(
+      //   userId.email,
+      //   "confirmmation mail",
+      //   "successfully enrolled this course"
+      // );
       res.status(200).json({
         success: true,
         message: "Congratulation for successfully buying this course",
