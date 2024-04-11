@@ -19,7 +19,7 @@ connectToCloudinary();
 // dummycoursedata()
 app.use(express.json());
 app.use(cors({
-  origin:['https://studysphere11.netlify.app']
+  origin:['https://studysphere11.netlify.app','http://localhost:3000']
 }));
 app.use(cookieParser());
 app.use(

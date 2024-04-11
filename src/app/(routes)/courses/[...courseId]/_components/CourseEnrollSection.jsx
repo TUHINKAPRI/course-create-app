@@ -5,28 +5,24 @@ import { LoaderCircle } from "lucide-react";
 import { useCreatePayment } from "@/hooks/course_hook";
 function CourseEnrollSection({ course }) {
   const succesHandler = (data) => {
-    console.log(data);
+    console.log(data?.data)
+    console.log(RAZORPAY_KEY_ID)
     var options = {
-      key: process.env.RAZORPAY_KEY,
+      key: process.env.RAZORPAY_KEY_ID,
       name: "Study Sphere",
       currency: data?.data?.currency,
       amount: data?.data?.amount,
-      order_id: data?.data?.id,
+      order_id: data?.data?.orderId,
       description: "Thankyou for your test donation",
-      image: data?.data?.thumbnail,
+      image: data?.data?.courseThumbnail,
       handler: function (response) {
         console.log(response);
-        
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
       },
     };
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
   const { mutate, data, status, isError } = useCreatePayment(succesHandler);
-  console.log(status);
   const initializeRazorpay = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
