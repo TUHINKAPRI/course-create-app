@@ -22,6 +22,7 @@ const {
   createSubSection,
   updateSubsection,
   deleteSubsection,
+  getVideoDetails,
 } = require("../controllers/subSection.controllers");
 const {
   getAllRatingOnACourse,
@@ -61,6 +62,7 @@ courseRouter
   .post(auth, isInstructor, createSubSection);
 courseRouter
   .route("/:courseId/section/:sectionId/sub-section/:subsectionId")
+  .get(auth,isStudent,getVideoDetails)
   .put(auth, isInstructor, updateSubsection)
   .delete(auth, isInstructor, deleteSubsection);
 

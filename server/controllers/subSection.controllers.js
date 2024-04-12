@@ -7,7 +7,7 @@ exports.createSubSection = async (req, res) => {
   try {
     const { title, description, timeDuration } = req.body;
     const { sectionId, courseId } = req.params;
-    const  videoUrl  = req.files?.videoUrl;
+    const videoUrl = req.files?.videoUrl;
     // console.log(videoUrl);
     if (!title || !description || !timeDuration || !sectionId || !videoUrl) {
       return res.status(400).json({
@@ -126,6 +126,61 @@ exports.deleteSubsection = async (req, res) => {
       message: "deleted successfully",
     });
   } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+exports.getVideoDetails = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { courseId, sectionId, subsectionId } = req.params;
+
+    const findCourse = await Course.findOne({ _id: courseId }).populate({
+      path: "courseContent",
+      populate: { path: "subSection" },
+    });
+    if (!findCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found",
+      });
+    }
+
+    const ifExistInTheCourse = findCourse?.studentJoined?.includes(userId);
+    if (!ifExistInTheCourse) {
+      return res.status(404).json({
+        success: false,
+        message: "You not purcherse this course",
+      });
+    }
+    const findSection = await Section.findOne({
+      _id: sectionId,
+    });
+    if (!findSection) {
+      return res.status(404).json({
+        success: false,
+        message: "section not found",
+      });
+    }
+
+    const findSubsection = await Subsection.findOne({ _id: subsectionId });
+    if (!findSubsection) {
+      return res.status(404).json({
+        success: false,
+        message: "sub section not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      course: findCourse,
+      message:"Fetch successfully"
+    });
+  } catch (err) {
+    console.log("subsection get videio details controllers ---- ---" + err);
     res.status(500).json({
       success: false,
       message: "Internal server error",
