@@ -1,3 +1,13 @@
+import {
+  BookOpenCheck,
+  Rows4,
+  LogOut,
+  Contact,
+  SquareUserRound,
+  GraduationCap,
+  Gauge,
+} from "lucide-react";
+
 export const nav = [
   {
     name: "Home",
@@ -17,31 +27,45 @@ export const nav = [
   },
 ];
 
-import { BookOpen,Rows4, BadgeIcon, GraduationCap,Gauge } from "lucide-react";
-
-export  const sidebarNav=[
+export const sidebarNav = [
   {
     id: 4,
     name: "Dashboard",
     icon: Gauge,
-    path:'/dashboard'
+    path: "/dashboard",
   },
- 
   {
-    id: 2,
-    name: "Memberships",
-    icon: BadgeIcon,
-    path: "/memberships",
+    id: 54564,
+    name: "User Profile",
+    icon: SquareUserRound,
   },
+
   {
     id: 3,
     name: "Be Instructor",
     icon: GraduationCap,
-  },{
-    id:6,
-    name:"Enrolled Course",
-    icon:Rows4,
-    path:'/dashboard/enrolled-course'
-  }
-  
+  },
+  {
+    id: 6,
+    name: "Enrolled Course",
+    icon: Rows4,
+    path: "/dashboard/enrolled-course",
+  },
+  {
+    id: 65484,
+    name: "Assessment",
+    icon: BookOpenCheck,
+    path: "/dashboard/assessment",
+  },
+  {
+    id: 6587894689,
+    name: "Support/Help",
+    icon: Contact,
+    path: "/contact",
+  },
+  {
+    id: 6548,
+    name: "Log-out",
+    icon: LogOut,
+  },
 ];

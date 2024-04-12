@@ -15,6 +15,11 @@ function Course() {
         <CourseList />
       </div>
       <div className="p-5 bg-white rounded-xl">
+      <div className="block sm:hidden">
+        <h2 className="font-semibold my-4 text-center pb-4 ">
+          Exclusive 
+        </h2>
+      </div>
         <SideBanner />
       </div>
     </div>

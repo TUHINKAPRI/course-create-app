@@ -44,7 +44,7 @@ function Home() {
           <CTAButton active={true} linkto={"/sign-up"}>
             Learn More
           </CTAButton>
-          <CTAButton active={false} linkto={"/log-in"}>
+          <CTAButton active={false} linkto={"/sign-in"}>
             Explore More
           </CTAButton>
         </div>

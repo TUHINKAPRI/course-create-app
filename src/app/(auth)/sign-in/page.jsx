@@ -13,7 +13,7 @@ function Signin() {
     handleSubmit,
     formState: { errors },
   } = useForm();
- 
+
   const { mutate, isSuccess, status } = user_signin();
   const formSubmitHandler = (data, e) => {
     e.preventDefault();
@@ -23,9 +23,8 @@ function Signin() {
     redirect("/dashboard");
   }
   return (
-    <section className=" mt-4  dark:bg-gray-900">
-  
-      <div className="flex flex-col w-[400px] items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <section className=" mt-4  mx-auto dark:bg-gray-900">
+      <div className="flex flex-col w-[360px] mx-auto items-center justify-center px-6 py-8 md:mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8  ">
             <div className=" flex justify-center ">
@@ -49,7 +48,7 @@ function Signin() {
                   {...register("email", { required: true })}
                   id="password"
                   placeholder="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50  border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
               </div>
               {/* password */}
@@ -79,7 +78,7 @@ function Signin() {
                     status === "pending" ? "block" : "invisible"
                   } `}
                 />{" "}
-                sign-in
+                sign-In
               </Button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Crteate an account?{" "}

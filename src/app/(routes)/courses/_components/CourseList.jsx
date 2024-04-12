@@ -18,10 +18,6 @@ function CourseList() {
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
         <h className="text-[20px] text-primary fond-blod">All Courses</h>
-        {/* <div className="flex border gap-2 p-2 rounded-md">
-          <Search className="h-5 w-5 " />
-          <input type="text" placeholder="Search..." className="outline-none" />
-        </div> */}
         <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter" />
@@ -43,7 +39,7 @@ function CourseList() {
           </SelectContent>
         </Select>
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
         {course_loading ? (
           <>
             {[1, 2, 3, 4, 5, 6].map((ele, index) => (

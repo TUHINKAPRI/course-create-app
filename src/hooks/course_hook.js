@@ -2,12 +2,12 @@ import {
   GET_ALL_CATEGORIES,
   GET_ALL_COURSES,
   GET_SINGLE_COURSE,
+  GET_VIDEO_URL,
 } from "@/utils/services/course_api";
 import toast from "react-hot-toast";
 import { CREATE_PAYMENT, VERIFY_PAYMENT } from "@/utils/services/payment_api";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { GET_ALL_USER_DETAILS } from "@/utils/services/user_api";
-import { axiosInstance } from "@/utils/services/helper";
 
 export const useGetAllCourses = () => {
   return useQuery({ queryKey: ["all_courses"], queryFn: GET_ALL_COURSES });
@@ -26,6 +26,13 @@ export const useAllUserCourse = () => {
     queryFn: GET_ALL_USER_DETAILS
   });
 };
+
+export const useFetchVideoUrl=(data)=>{
+  return useQuery({
+    queryKey: ["getVideoUrl"],
+    queryFn:()=>GET_VIDEO_URL(data)
+  })
+}
 
 export const useFetchSignleCourse = (data) => {
   return useQuery({

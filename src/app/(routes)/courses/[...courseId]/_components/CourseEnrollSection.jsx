@@ -7,8 +7,9 @@ import { LoaderCircle } from "lucide-react";
 import { useCreatePayment, useVerifyPayment } from "@/hooks/course_hook";
 import Link from "next/link";
 function CourseEnrollSection({ course, mutates }) {
+  console.log(course)
   const [user, setUser] = useState(null);
-  const [enroll, setEnroll] = useState(false);
+
   const succesHandler = (data) => {
     var options = {
       key: process.env.RAZORPAY_KEY_ID,
@@ -51,7 +52,6 @@ function CourseEnrollSection({ course, mutates }) {
     mutate({ courseId: data });
   };
 
-  console.log(enroll);
 
   useEffect(() => {
     const users = JSON.parse(localStorage.getItem("user"));
@@ -66,7 +66,7 @@ function CourseEnrollSection({ course, mutates }) {
       {course?.studentJoined?.includes(user) ? (
         <>
           <Link
-            href="/watch-video"
+            href={`/watch-video/${course?._id}/${course?.courseContent[0]?._id}/${course?.courseContent[0]?.subSection[0]?._id}`}
             className={`bg-white  rounded-md py-2  text-primary hover:bg-white hover:text-primary`}
           >
             Go To Complete The Course

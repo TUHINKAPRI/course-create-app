@@ -185,7 +185,16 @@ exports.getInstructorCourse = async (req, res) => {
 exports.getStudentCourse=async(req,res)=>{
   try{
     const userId=req.user._id
-    const userCourse=await Course.find({studentJoined:userId})
+    const userCourse=await Course.find({studentJoined:userId}).populate({
+      path: "courseContent",
+      populate: { path: "subSection" },
+    })
+    if(!userCourse){
+      return res.status(404).json({
+        success:false,
+        message:"Course not found"
+      })
+    }
    res.status(200).json({
     success:true,
     course:userCourse
