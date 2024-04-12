@@ -180,3 +180,21 @@ exports.getInstructorCourse = async (req, res) => {
     });
   }
 };
+
+
+exports.getStudentCourse=async(req,res)=>{
+  try{
+    const userId=req.user._id
+    const userCourse=await Course.find({studentJoined:userId})
+   res.status(200).json({
+    success:true,
+    course:userCourse
+   })
+  }catch(err){
+    console.log('getStudentcourse error---'+err);
+    res.status(500).json({
+      success:false,
+      message:"Internal server Error"
+    })
+  }
+}

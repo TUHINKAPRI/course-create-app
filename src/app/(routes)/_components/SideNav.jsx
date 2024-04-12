@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { BookOpen, BadgeIcon, GraduationCap,Gauge } from "lucide-react";
+import { BookOpen, BadgeIcon, GraduationCap, Gauge, Rows4 } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import { sidebarNav } from "@/constants/navlink";
 function SideNav() {
   const [path, setPath] = useState(null);
-
 
   const paths = usePathname();
   useEffect(() => {
@@ -25,10 +24,9 @@ function SideNav() {
           <Link href={`${ele.path}`}>
             <div
               className={`group flex gap-3 mt-1 p-3 tex-[20px] text-center text-gray-500 cursor-pointer hover:bg-primary hover:text-white rounded-md transition-all ease-in-out duration-200  ${
-                path?.includes(ele.path) && "bg-primary text-white"
+                path === ele.path ? "bg-primary text-white" : "text-black"
               } `}
             >
-         
               <ele.icon className="group-hover:animate-bounce" />
               <h2>{ele.name}</h2>
             </div>

@@ -7,6 +7,6 @@ const {
 const paymentRoutes = express.Router();
 
 paymentRoutes.route("/capture-payments").post(auth, isStudent, capturePayment);
-paymentRoutes.route("/verify-payments").post( verifyPayment);
+paymentRoutes.route("/verify-payments").post(auth, isStudent, verifyPayment);
 
 module.exports = paymentRoutes;

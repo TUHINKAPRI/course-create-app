@@ -29,6 +29,7 @@ export const user_signin = () => {
         localStorage.setItem("token", JSON.stringify(data?.data?.token));
         localStorage.setItem("user", JSON.stringify(data?.data?.user));
         toast.success(data?.data?.message);
+        
       }
       return data;
       // queryClient.invalidateQueries({ queryKey: ['todos'] })

@@ -5,6 +5,7 @@ const {
   getCourseDetails,
   updateCourse,
   getInstructorCourse,
+  getStudentCourse,
 } = require("../controllers/course.controllers");
 const {
   auth,
@@ -41,6 +42,7 @@ courseRouter
 courseRouter
   .route("/getInstructorCourses")
   .get(auth, isInstructor, getInstructorCourse);
+  courseRouter.route('/get-all-student-course').get(auth,isStudent, getStudentCourse);
 courseRouter
   .route("/getSingleCourse/:courseId")
   .get(getCourseDetails)

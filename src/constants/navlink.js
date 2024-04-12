@@ -17,7 +17,7 @@ export const nav = [
   },
 ];
 
-import { BookOpen, BadgeIcon, GraduationCap,Gauge } from "lucide-react";
+import { BookOpen,Rows4, BadgeIcon, GraduationCap,Gauge } from "lucide-react";
 
 export  const sidebarNav=[
   {
@@ -37,6 +37,11 @@ export  const sidebarNav=[
     id: 3,
     name: "Be Instructor",
     icon: GraduationCap,
-  },
+  },{
+    id:6,
+    name:"Enrolled Course",
+    icon:Rows4,
+    path:'/dashboard/enrolled-course'
+  }
   
 ];
