@@ -43,7 +43,9 @@ courseRouter
 courseRouter
   .route("/getInstructorCourses")
   .get(auth, isInstructor, getInstructorCourse);
-  courseRouter.route('/get-all-student-course').get(auth,isStudent, getStudentCourse);
+courseRouter
+  .route("/get-all-student-course")
+  .get(auth, isStudent, getStudentCourse);
 courseRouter
   .route("/getSingleCourse/:courseId")
   .get(getCourseDetails)
@@ -62,7 +64,7 @@ courseRouter
   .post(auth, isInstructor, createSubSection);
 courseRouter
   .route("/:courseId/section/:sectionId/sub-section/:subsectionId")
-  .get(auth,isStudent,getVideoDetails)
+  .get(auth, isStudent, getVideoDetails)
   .put(auth, isInstructor, updateSubsection)
   .delete(auth, isInstructor, deleteSubsection);
 

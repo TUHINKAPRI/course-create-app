@@ -17,7 +17,7 @@ function CourseList() {
   return (
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
-        <h className="text-[20px] text-primary fond-blod">All Courses</h>
+        <h2 className="text-[20px] text-primary fond-blod">All Courses</h2>
         <Select>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter" />
@@ -60,9 +60,9 @@ function CourseList() {
             {course?.data?.course?.length > 0 ? (
               <>
                 {course?.data?.course?.map((course, index) => (
-                  <>
+                  <div key={index}>
                     <CourseCard key={index} course={course} />
-                  </>
+                  </div>
                 ))}
               </>
             ) : (

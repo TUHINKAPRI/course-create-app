@@ -7,20 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
-import { useUpdateProfie } from "@/hooks/auth_hook";
+import { useFetchUserInfo, useUpdateProfie, useUpdateProfilePic } from "@/hooks/auth_hook";
 
 function UserDeatilsForm() {
   const dispatch = useDispatch();
+  const {data,isLoading,isError}=useFetchUserInfo()
+  const{mutate:picMutate,status:picStatus}=useUpdateProfilePic()
   const { mutate, status, error } = useUpdateProfie();
   const { register, setValue, getValue, handleSubmit } = useForm();
   const [img, setImg] = useState();
   const fd = new FormData();
   const accountDetailsHandler = (data) => {
-    console.log(data);
+
     mutate(data);
   };
-  const profileData = {};
-  const isLoading = false;
+  if(data?.data?.data){
+    setValue("email",data?.data?.data?.email)
+    setValue('name',data?.data?.data?.name)
+  }
+
+
   return (
     <div>
       <div className=" max-w-2xl p-5 mx-auto">
@@ -66,7 +72,7 @@ function UserDeatilsForm() {
           <p className="font-bold mb-3 text-sm">Profile picture :</p>
           <div className="border rounded-md flex  ">
             <img
-              src={img ? URL.createObjectURL(img) : profileData?.image}
+              src={img ? URL.createObjectURL(img) : data?.data?.data?.profile_image}
               alt=" profile pic "
               className="h-[200px] mx-auto"
             />
@@ -83,8 +89,8 @@ function UserDeatilsForm() {
             <Button
               variant="outline"
               onClick={() => {
-                fd.append("profilePicture", img);
-                dispatch(updateProfilePicture(fd));
+                fd.append("profile_image", img);
+                picMutate(fd)
               }}
               disabled={img ? (status === "pending" ? true : false) : true}
               className="w-2/12 bg-primary text-white"

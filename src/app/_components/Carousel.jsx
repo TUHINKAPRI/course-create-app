@@ -39,9 +39,9 @@ export function Carousels({ course }) {
                         />
                       </div>
                       <div className="flex flex-col gap-1 p-2">
-                        <h className="font-medium text-sm">
+                        <p className="font-medium text-sm">
                           {course?.courseName?.slice(0, 23)}
-                        </h>
+                        </p>
                       </div>
                     </Link>
                   </CardContent>

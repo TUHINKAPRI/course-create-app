@@ -70,19 +70,7 @@ exports.getProfileDetails = async (req, res) => {
   try {
     const userId = req.user._id;
     var id = new mongoose.Types.ObjectId(userId);
-    const userDetails = await User.aggregate([
-      {
-        $match: { _id: id },
-      },
-      {
-        $lookup: {
-          from: "profiles",
-          localField: "aditionalDetails",
-          foreignField: "_id",
-          as: "aditionalDetails",
-        },
-      },
-    ]);
+    const userDetails = await User.findOne({ _id: userId });
     res.status(200).json({
       success: true,
       message: "user details fetch successfully",
@@ -99,15 +87,16 @@ exports.getProfileDetails = async (req, res) => {
 
 exports.updateProfilePicture = async (req, res) => {
   try {
-    console.log(req.files);
-    const { profilePicture } = req.files;
+    const { profile_image } = req.files;
+
     const userId = req.user._id;
-    const link = await imageUploader(profilePicture);
+    const link = await imageUploader(profile_image);
+
     const updatedUser = await User.findByIdAndUpdate(
       { _id: userId },
       {
         $set: {
-          image: link?.secure_url,
+          profile_image: link?.secure_url,
         },
       },
       { new: true }

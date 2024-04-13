@@ -6,13 +6,20 @@ import { useSelector } from "react-redux";
 import DashboardHeader from "./_components/DashboardHeader";
 import Link from "next/link";
 import DashboardAnalysis from "./_components/DashboardAnalysis";
+import { Carousels } from "@/app/_components/Carousel";
+import { useFetchInstructorDetails } from "@/hooks/auth_hook";
+import CourseCard from "../courses/_components/CourseCard";
 function Dashboard() {
-  // const { data, isLoading, isError } = useAllUserCourse();
   const { isLogin,user } = useSelector((state) => state.user);
-  console.log(user);
-  // if (isLoading) {
-  //   return <Loading />;
-  // }
+  const { data, isLoading, isError } = useAllUserCourse(user?.accountType==="Student"?(true):(false));
+  const {data:insData,isLoading:insLoading}=useFetchInstructorDetails(user?.accountType==='Instructor'?true:false)
+
+  console.log(insData);
+
+  console.log(data)
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       {isLogin ? (
@@ -20,6 +27,18 @@ function Dashboard() {
           <div className="p-4">
             <DashboardHeader user={user} />
             <DashboardAnalysis/>
+            <div className="p-3 bg-white rounded-md mt-3">
+                <p className="my-2 mx-3">My course</p>
+                <div className="w-[200px]">
+                {
+                  data?.data?.course?.map((ele,index)=>(
+                   <idv className="w-[200px]" key={index}>
+                   <CourseCard    course={ele}   />
+                   </idv>
+                  ))
+                }
+                </div>
+            </div>
           </div>
         </>
       ) : (

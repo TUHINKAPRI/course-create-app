@@ -25,7 +25,7 @@ function SideNav() {
         {sidebarNav.map((ele, index) => {
           if (ele?.name === "Log-out") {
             return (
-              <div>
+              <div key={index}>
                 <div
                   className={`group flex gap-3 mt-1 p-3 tex-[20px] text-center text-gray-500 cursor-pointer hover:bg-primary hover:text-white rounded-md transition-all ease-in-out duration-200  ${
                     path === ele.path ? "bg-primary text-white" : "text-black"
@@ -41,7 +41,7 @@ function SideNav() {
             );
           } else if (ele?.name === "Be Instructor") {
             return (
-              <Link href="/sign-up">
+              <Link href="/sign-up" key={index}>
                 <div
                   className={`group flex gap-3 mt-1 p-3 tex-[20px] text-center text-gray-500 cursor-pointer hover:bg-primary hover:text-white rounded-md transition-all ease-in-out duration-200  ${
                     path === ele.path ? "bg-primary text-white" : "text-black"
@@ -54,7 +54,7 @@ function SideNav() {
             );
           } else {
             return (
-              <Link href={`${ele.path}`}>
+              <Link href={`${ele.path}`} key={index}>
                 <div
                   className={`group flex gap-3 mt-1 p-3 tex-[20px] text-center text-gray-500 cursor-pointer hover:bg-primary hover:text-white rounded-md transition-all ease-in-out duration-200  ${
                     path === ele.path ? "bg-primary text-white" : "text-black"

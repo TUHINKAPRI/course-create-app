@@ -1,5 +1,10 @@
 import { SIGN_IN, SIGN_UP } from "@/utils/services/auth_api";
-import { UPDATE_PROFILE_INFO } from "@/utils/services/user_api";
+import {
+  FETCH_INSTRUCTOR_DETAILS,
+  GET_ALL_ACCOUNT_INFO,
+  UPDATE_PROFILE_INFO,
+  UPDATE_PROFILE_PIC,
+} from "@/utils/services/user_api";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -31,7 +36,6 @@ export const user_signin = () => {
         toast.success(data?.data?.message);
       }
       return data;
-      
     },
     onError: (error) => {
       if (error?.response?.data?.success === false) {
@@ -61,3 +65,33 @@ export const useUpdateProfie = () => {
     },
   });
 };
+
+export const useFetchUserInfo = () => {
+  return useQuery({
+    queryKey: ["use_info"],
+    queryFn: GET_ALL_ACCOUNT_INFO,
+  });
+};
+
+export const useUpdateProfilePic = () => {
+  return useMutation({
+    
+    mutationFn: UPDATE_PROFILE_PIC,
+    onSuccess: (data) => {
+      localStorage.setItem("user",JSON.parse(data?.data?.data))
+      toast.success(data?.data?.message);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+};
+
+
+export const useFetchInstructorDetails=(data)=>{
+  return useQuery({
+    queryFn:['getInstructorDetails'],
+    queryFn:FETCH_INSTRUCTOR_DETAILS,
+    enabled:data
+  })
+}

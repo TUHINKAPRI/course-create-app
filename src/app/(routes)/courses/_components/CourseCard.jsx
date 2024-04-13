@@ -13,7 +13,7 @@ function CourseCard({ course }) {
         className="rounded-t-xl  h-[200px] md:h-[150px] w-[500px] "
       />
       <div className="flex flex-col gap-1 p-2">
-        <h className="font-medium">{course?.courseName.slice(0,23)} ...</h>
+        <h2 className="font-medium">{course?.courseName.slice(0,23)} ...</h2>
         <h2 className="text-[12px] text-gray-400 ">
           {course?.instructor?.name}
          

@@ -31,8 +31,8 @@ const team=[
 
 
     {
-      team?.map((ele)=>(
-        <div className="max-w-sm sm:w-1/2 md:w-1/2 lg:w-1/3">
+      team?.map((ele,index)=>(
+        <div key={index} className="max-w-sm sm:w-1/2 md:w-1/2 lg:w-1/3">
         <div
           className="
           m-3

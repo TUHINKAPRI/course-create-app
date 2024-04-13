@@ -4,19 +4,8 @@ import React, { useEffect, useState } from "react";
 import { Search, BellDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { BookOpen, BadgeIcon, GraduationCap } from "lucide-react";
 import Link from 'next/link'
 
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { usePathname } from "next/navigation";
 function Header() {
   const [path, setPath] = useState(null);

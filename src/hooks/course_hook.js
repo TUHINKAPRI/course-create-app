@@ -20,10 +20,11 @@ export const useFetchCategories = () => {
   });
 };
 
-export const useAllUserCourse = () => {
+export const useAllUserCourse = (data) => {
   return useQuery({
     queryKey: ["getAllCourse"],
-    queryFn: GET_ALL_USER_DETAILS
+    queryFn: GET_ALL_USER_DETAILS,
+    enabled:data
   });
 };
 

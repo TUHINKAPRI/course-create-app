@@ -2,16 +2,12 @@
 import { LogIn } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { MoveRight } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -21,8 +17,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -32,20 +26,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { log_out } from "@/utils/redux/slices/userSlice";
 function Navbar() {
   const dispatch = useDispatch();
-  const { isLogin } = useSelector((state) => state.user);
-  console.log(isLogin);
+  const { isLogin, user } = useSelector((state) => state.user);
   const router = useRouter();
   const pathname = usePathname();
 
-  const [user, setUser] = useState(null);
   const [path, setPath] = useState(null);
   useEffect(() => {
-    const users = localStorage.getItem("user");
-    setUser(JSON.parse(users));
-
     setPath(pathname);
-  }, [pathname, isLogin]);
-  console.log(user);
+  }, [pathname]);
+
   return (
     <header className="header  bg-white z-40  sticky py-1 md:py-0 top-0 shadow-md grid grid-cols-3 items-center justify-between px- py-02">
       {/* logo */}
@@ -164,9 +153,9 @@ function Navbar() {
                           className="hidden sm:block h-6 w-6 text-gray-300"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           />
                         </svg>
                       </div>
@@ -176,14 +165,7 @@ function Navbar() {
                         <Link href="/dashboard/profile">My account</Link>
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      {/* <DropdownMenuItem>
-                        <Link href="/cart">Cart</Link>
-                      </DropdownMenuItem> */}
-                      {/* <DropdownMenuItem>
-                        <Link href='/' >
-                          Wishlist
-                        </Link>
-                      </DropdownMenuItem> */}
+                      
                       <DropdownMenuItem>
                         <Link href="/dashboard/enrolled-course">My course</Link>
                       </DropdownMenuItem>
@@ -192,7 +174,7 @@ function Navbar() {
                           className=""
                           onClick={() => {
                             dispatch(log_out());
-                            router.refresh();
+                           
                           }}
                         >
                           Log-out
@@ -216,9 +198,9 @@ function Navbar() {
                             className="h-6 w-6"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                             />
                           </svg>
@@ -236,7 +218,7 @@ function Navbar() {
                       className="relative hidden md:block p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full"
                       onClick={() => {
                         dispatch(log_out());
-                        router.refresh();
+                       
                       }}
                     >
                       <span className="sr-only">Log out</span>
@@ -245,12 +227,12 @@ function Navbar() {
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        class="h-6 w-6"
+                        className="h-6 w-6"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                         />
                       </svg>
@@ -265,8 +247,8 @@ function Navbar() {
               <button
                 className="
               border-0
-              // bg-primary
-              // text-white
+            
+              
               rounded-md
               w-9
               h-9
