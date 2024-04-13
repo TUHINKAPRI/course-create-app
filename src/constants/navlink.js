@@ -38,6 +38,7 @@ export const sidebarNav = [
     id: 54564,
     name: "User Profile",
     icon: SquareUserRound,
+    path:'/dashboard/profile'
   },
 
   {

@@ -27,19 +27,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { nav, sidebarNav } from "@/constants/navlink";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { log_out } from "@/utils/redux/slices/userSlice";
 function Navbar() {
+  const dispatch = useDispatch();
+  const { isLogin } = useSelector((state) => state.user);
+  console.log(isLogin);
+  const router = useRouter();
   const pathname = usePathname();
-  const [token, setToken] = useState(null);
+
   const [user, setUser] = useState(null);
   const [path, setPath] = useState(null);
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const users = localStorage.getItem("user");
     setUser(JSON.parse(users));
-    setToken(JSON.parse(token));
+
     setPath(pathname);
-  }, [pathname]);
+  }, [pathname, isLogin]);
   console.log(user);
   return (
     <header className="header  bg-white z-40  sticky py-1 md:py-0 top-0 shadow-md grid grid-cols-3 items-center justify-between px- py-02">
@@ -131,13 +136,13 @@ function Navbar() {
       {/*  token   last profile or login section */}
       <div className=" col-span-1 mx-5 flex justify-end">
         <div className="flex items-center gap-4">
-          {token ? (
+          {isLogin ? (
             <>
               <div>
                 <div className="flex flex-shrink-0 items-center ml-auto">
                   <DropdownMenu className="focus-visible:ring-0 focus-visible:ring-offset-0">
                     <DropdownMenuTrigger className="focus-visible:ring-0 focus-visible:ring-offset-0">
-                      <div className="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
+                      <div className="inline-flex items-center pt-1 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
                         <span className="sr-only">User Menu</span>
                         <div className="hidden lg:flex lg:flex-col lg:items-end md:leading-tight">
                           <span className="font-semibold">{user?.name}</span>
@@ -145,9 +150,9 @@ function Navbar() {
                             {user?.accountType}
                           </span>
                         </div>
-                        <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
+                        <span className="h-10 w-10 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
                           <img
-                            src="https://randomuser.me/api/portraits/women/68.jpg"
+                            src={user?.profile_image}
                             alt="user profile photo"
                             className="h-full w-full object-cover"
                           />
@@ -167,36 +172,73 @@ function Navbar() {
                       </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuLabel>
+                        <Link href="/dashboard/profile">My account</Link>
+                      </DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Billing</DropdownMenuItem>
-                      <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem>
+                      {/* <DropdownMenuItem>
+                        <Link href="/cart">Cart</Link>
+                      </DropdownMenuItem> */}
+                      {/* <DropdownMenuItem>
+                        <Link href='/' >
+                          Wishlist
+                        </Link>
+                      </DropdownMenuItem> */}
+                      <DropdownMenuItem>
+                        <Link href="/dashboard/enrolled-course">My course</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <div
+                          className=""
+                          onClick={() => {
+                            dispatch(log_out());
+                            router.refresh();
+                          }}
+                        >
+                          Log-out
+                        </div>
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
 
                   <div className="border-l pl-1 hidden  sm:flex sm:pl-3  ml-1 sm:ml-3 space-x-1">
-                    <button className="relative  p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
-                      <span className="sr-only">Notifications</span>
-                      <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full"></span>
-                      <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full animate-ping"></span>
-                      <svg
-                        aria-hidden="true"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        className="h-6 w-6"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                        />
-                      </svg>
-                    </button>
-                    <button className="relative hidden md:block p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+                    <DropdownMenu className="focus-visible:ring-0 focus-visible:ring-offset-0">
+                      <DropdownMenuTrigger className="focus-visible:ring-0 focus-visible:ring-offset-0">
+                        <div className="relative  p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+                          <span className="sr-only">Notifications</span>
+                          <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full"></span>
+                          <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full animate-ping"></span>
+                          <svg
+                            aria-hidden="true"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                            />
+                          </svg>
+                        </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>
+                          Not have any notification
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <button
+                      className="relative hidden md:block p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full"
+                      onClick={() => {
+                        dispatch(log_out());
+                        router.refresh();
+                      }}
+                    >
                       <span className="sr-only">Log out</span>
                       <svg
                         aria-hidden="true"
@@ -216,36 +258,6 @@ function Navbar() {
                   </div>
                 </div>
               </div>
-
-              {/* <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Image
-                    className="relative cursor-pointer  inline-block h-11 w-11 rounded-full object-cover object-center"
-                    alt="Image placeholder"
-                    height={40}
-                    width={40}
-                    src={user?.profile_image}
-                  />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 mr-5">
-                  <DropdownMenuLabel>wellcome {user?.name}</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuRadioGroup
-                    value={"buttom"}
-                    // onValueChange={setPosition}
-                  >
-                    <DropdownMenuRadioItem>
-                      <Link href="/dashboard">Dashboard</Link>
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="bottom">
-                      <Link href="/">profile</Link>
-                    </DropdownMenuRadioItem>
-                    <DropdownMenuRadioItem value="right">
-                      Right
-                    </DropdownMenuRadioItem>
-                  </DropdownMenuRadioGroup>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
             </>
           ) : (
             <Link href="/sign-in">

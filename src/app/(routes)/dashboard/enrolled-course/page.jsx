@@ -6,7 +6,7 @@ import Link from "next/link";
 import CourseCard from "../../courses/_components/CourseCard";
 function EnrolledCourse() {
   const { data, isLoading, isError } = useAllUserCourse();
-
+console.log(data)
   if (isLoading) {
     return <Loading />;
   }

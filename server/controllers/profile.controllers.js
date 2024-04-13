@@ -6,17 +6,23 @@ const Course = require("../models/course.model");
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { dateOfBirth, gender, contactNumber, about } = req.body;
+    const { email, name } = req.body;
     const userId = req.user._id;
-    // if (!contactNumber || !about) {
+    if (!email && !name) {
+      return res.status(400).json({
+        success: false,
+        message: "Both fields are required",
+      });
+    }
+    // const isExist = await User.findOne({ email: email });
+    // if (isExist) {
     //   return res.status(400).json({
-    //     success: false,
-    //     message: "Both fields are required",
+    //     succes: false,
+    //     message: "User Already Exists",
     //   });
     // }
-    const userDetails = await User.findOne({ _id: userId });
-    const updatedProfile = await Profile.findByIdAndUpdate(
-      { _id: userDetails.aditionalDetails },
+    const updateUserDetails = await User.findByIdAndUpdate(
+      { _id: userId },
       {
         $set: {
           ...req.body,
@@ -24,10 +30,11 @@ exports.updateProfile = async (req, res) => {
       },
       { new: true }
     );
+
     res.status(200).json({
       success: true,
       message: "Profile updated successfully",
-      data: updatedProfile,
+      data: updateUserDetails,
     });
   } catch (err) {
     console.log(err);

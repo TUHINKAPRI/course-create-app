@@ -146,6 +146,7 @@ exports.signin = async (req, res) => {
       });
     }
     const isMatched = await bcrypt.compare(password, findUser.password);
+    console.log(isMatched)
     if (!isMatched) {
       return res.status(400).json({
         success: false,

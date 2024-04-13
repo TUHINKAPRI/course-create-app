@@ -7,20 +7,26 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { user_signin } from "@/hooks/auth_hook";
 import { redirect } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { sign_in } from "@/utils/redux/slices/userSlice";
 function Signin() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { mutate, isSuccess, status } = user_signin();
+  const { mutate,data, isSuccess, status } = user_signin();
   const formSubmitHandler = (data, e) => {
     e.preventDefault();
     mutate(data);
   };
   if (isSuccess) {
-    redirect("/dashboard");
+    dispatch(sign_in(data));
+    redirect("/courses");
+    
+    
   }
   return (
     <section className=" mt-4  mx-auto dark:bg-gray-900">
