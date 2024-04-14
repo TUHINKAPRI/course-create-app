@@ -1,10 +1,11 @@
 import { axiosInstance } from "./helper";
 
 export const GET_ALL_COURSES = async ({queryKey}) => {
- const[_,category]=queryKey
- console.log(category?.category)
+ const[_,query]=queryKey
 
-  return await axiosInstance.get(`/course`);
+ const queryParams = new URLSearchParams(query).toString();
+
+  return await axiosInstance.get(`/course?${queryParams}`);
 };
 
 export const GET_ALL_CATEGORIES = async () => {

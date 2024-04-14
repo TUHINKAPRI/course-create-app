@@ -14,19 +14,22 @@ import { Search, BellDot } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import Loading from "@/components/Loading";
 
-function CourseList() {
-  const [filter, setFilter] = useState();
+function CourseList({query}) {
+ const searchParams = useSearchParams();
+  const router=useRouter()
   const {
     data: course,
     isLoading: course_loading,
     refetch,
-  } = useGetAllCourses(filter);
+  } = useGetAllCourses(query);
   const { data: categories, isLoading: categories_loading } =
     useFetchCategories();
-  console.log(course);
-  const searchParams = useSearchParams();
-  const router = useRouter();
+
+if(course_loading){
+  return <Loading/>
+}
   const newUrl = qs.parse(searchParams);
   const handleFilter = (data) => {
     newUrl["category"] = data;
@@ -34,8 +37,6 @@ function CourseList() {
       url: window.location.pathname,
       query: newUrl,
     });
-    setFilter(newUrl);
-
     router.push(value, { scroll: false });
     refetch();
   };
@@ -43,7 +44,7 @@ function CourseList() {
   return (
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
-        <h2 className="text-[20px] text-primary fond-blod">All Courses</h2>
+        <h2 className="text-[20px] text-primary fond-blod" >All Courses</h2>
         <Select
           onValueChange={(data) => {
             handleFilter(data);

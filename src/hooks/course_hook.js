@@ -9,9 +9,9 @@ import { CREATE_PAYMENT, VERIFY_PAYMENT } from "@/utils/services/payment_api";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { GET_ALL_USER_DETAILS } from "@/utils/services/user_api";
 
-export const useGetAllCourses = (data) => {
+export const useGetAllCourses = (filter) => {
   return useQuery({
-    queryKey: ["all_courses",data],
+    queryKey: ["all_courses",filter],
     queryFn:  GET_ALL_COURSES,
   });
 };
