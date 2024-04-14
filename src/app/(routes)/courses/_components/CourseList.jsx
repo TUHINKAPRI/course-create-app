@@ -1,3 +1,6 @@
+"use client";
+import qs from "query-string";
+
 import { useFetchCategories, useGetAllCourses } from "@/hooks/course_hook";
 import {
   Select,
@@ -9,16 +12,43 @@ import {
 import CourseCard from "./CourseCard";
 import { Search, BellDot } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 function CourseList() {
-  const { data: course, isLoading: course_loading } = useGetAllCourses();
+  const [filter, setFilter] = useState();
+  const {
+    data: course,
+    isLoading: course_loading,
+    refetch,
+  } = useGetAllCourses(filter);
   const { data: categories, isLoading: categories_loading } =
     useFetchCategories();
+  console.log(course);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const newUrl = qs.parse(searchParams);
+  const handleFilter = (data) => {
+    newUrl["category"] = data;
+    const value = qs.stringifyUrl({
+      url: window.location.pathname,
+      query: newUrl,
+    });
+    setFilter(newUrl);
+
+    router.push(value, { scroll: false });
+    refetch();
+  };
+
   return (
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
         <h2 className="text-[20px] text-primary fond-blod">All Courses</h2>
-        <Select>
+        <Select
+          onValueChange={(data) => {
+            handleFilter(data);
+          }}
+        >
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Filter" />
           </SelectTrigger>

@@ -9,8 +9,11 @@ import { CREATE_PAYMENT, VERIFY_PAYMENT } from "@/utils/services/payment_api";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { GET_ALL_USER_DETAILS } from "@/utils/services/user_api";
 
-export const useGetAllCourses = () => {
-  return useQuery({ queryKey: ["all_courses"], queryFn: GET_ALL_COURSES });
+export const useGetAllCourses = (data) => {
+  return useQuery({
+    queryKey: ["all_courses",data],
+    queryFn:  GET_ALL_COURSES,
+  });
 };
 
 export const useFetchCategories = () => {
@@ -24,16 +27,16 @@ export const useAllUserCourse = (data) => {
   return useQuery({
     queryKey: ["getAllCourse"],
     queryFn: GET_ALL_USER_DETAILS,
-    enabled:data
+    enabled: data,
   });
 };
 
-export const useFetchVideoUrl=(data)=>{
+export const useFetchVideoUrl = (data) => {
   return useQuery({
     queryKey: ["getVideoUrl"],
-    queryFn:()=>GET_VIDEO_URL(data)
-  })
-}
+    queryFn: () => GET_VIDEO_URL(data),
+  });
+};
 
 export const useFetchSignleCourse = (data) => {
   return useQuery({
