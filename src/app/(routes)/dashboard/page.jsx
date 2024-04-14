@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import DashboardHeader from "./_components/DashboardHeader";
 import Link from "next/link";
 import DashboardAnalysis from "./_components/DashboardAnalysis";
-import { Carousels } from "@/app/_components/Carousel";
 import { useFetchInstructorDetails } from "@/hooks/auth_hook";
 import CourseCard from "../courses/_components/CourseCard";
 function Dashboard() {

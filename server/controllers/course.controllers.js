@@ -101,11 +101,18 @@ exports.getAllCourses = async (req, res) => {
     if (req.query.category) {
       filter.category = req.query.category;
     }
-    const course = await Course.find(filter).populate("instructor");
+
+    console.log(filter);
+    const course = await Course.find({
+      ...filter,
+      ...(req.query.search && {
+        courseName: { $regex: req.query.search, $options: "i" },
+      }),
+    }).populate("instructor");
     res.status(200).json({
       success: true,
       message: "Course fetch successfully",
-      course 
+      course,
     });
   } catch (err) {
     console.log(err.message);

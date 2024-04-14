@@ -10,13 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import CourseCard from "./CourseCard";
-import { Search, BellDot } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import Loading from "@/components/Loading";
+import { useState } from "react";
 
 function CourseList({query}) {
+  const [filters,setFilters]=useState()
  const searchParams = useSearchParams();
   const router=useRouter()
   const {
@@ -40,20 +40,29 @@ if(course_loading){
     router.push(value, { scroll: false });
     refetch();
   };
-
+const allCourseTrigger=()=>{
+  router.push(window.location.pathname)
+  refetch();
+}
   return (
     <div className="p-5 bg-white rounded-lg mt-4">
       <div className="flex justify-between">
-        <h2 className="text-[20px] text-primary fond-blod" >All Courses</h2>
-        <Select
+        <h2 className="text-[20px] text-primary fond-blod cursor-pointer " onClick={()=>{
+          allCourseTrigger()
+        }}>All Courses</h2>
+        <Select      
           onValueChange={(data) => {
+            setFilters(data)
             handleFilter(data);
           }}
         >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter" />
+          <SelectTrigger className="w-[180px] text-black">
+            <SelectValue placeholder="Filters"  />
+             
+     
           </SelectTrigger>
           <SelectContent>
+          
             {categories_loading ? (
               <>
                 <span>Loading....</span>
@@ -97,7 +106,7 @@ if(course_loading){
                 ))}
               </>
             ) : (
-              <div>No data Found for this category</div>
+              <div>No data Found ... </div>
             )}
           </>
         )}

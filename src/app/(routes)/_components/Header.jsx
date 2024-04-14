@@ -1,21 +1,26 @@
 "use client";
-
+import qs from "query-string";
 import React, { useEffect, useState } from "react";
 import { Search, BellDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/navigation";
 function Header() {
+  const router=useRouter()
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const submitHandler = (data) => {
-    console.log(data);
+    const query = qs.stringifyUrl({
+      url: window.location.pathname,
+      query: data,
+    });
+    router.push(query, { scroll: false });
+    
   };
 
   return (

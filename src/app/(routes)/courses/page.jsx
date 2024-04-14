@@ -7,7 +7,7 @@ import SideBanner from "./_components/SideBanner";
 import Header from "../_components/Header";
 
 function Course({searchParams}) {
-
+console.log(searchParams)
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
       <div className=" col-span-1 sm:col-span-2 md:col-span-3">
