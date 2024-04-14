@@ -1,14 +1,12 @@
 "use client";
 import qs from "query-string";
-import React, { useEffect, useState } from "react";
-import { Search, BellDot } from "lucide-react";
+import React from "react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-function Header() {
-  const router=useRouter()
+function Header({refetch}) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -20,7 +18,7 @@ function Header() {
       query: data,
     });
     router.push(query, { scroll: false });
-    
+    refetch();
   };
 
   return (

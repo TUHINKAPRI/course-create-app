@@ -1,7 +1,7 @@
 "use client";
 import qs from "query-string";
 
-import { useFetchCategories, useGetAllCourses } from "@/hooks/course_hook";
+import { useFetchCategories } from "@/hooks/course_hook";
 import {
   Select,
   SelectContent,
@@ -12,24 +12,15 @@ import {
 import CourseCard from "./CourseCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
-import Loading from "@/components/Loading";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 
-function CourseList({query}) {
-  const [filters,setFilters]=useState()
+function CourseList({refetch}) {
+  const {courses}=useSelector(state=>state.courses)
  const searchParams = useSearchParams();
   const router=useRouter()
-  const {
-    data: course,
-    isLoading: course_loading,
-    refetch,
-  } = useGetAllCourses(query);
   const { data: categories, isLoading: categories_loading } =
     useFetchCategories();
 
-if(course_loading){
-  return <Loading/>
-}
   const newUrl = qs.parse(searchParams);
   const handleFilter = (data) => {
     newUrl["category"] = data;
@@ -52,7 +43,7 @@ const allCourseTrigger=()=>{
         }}>All Courses</h2>
         <Select      
           onValueChange={(data) => {
-            setFilters(data)
+           
             handleFilter(data);
           }}
         >
@@ -80,7 +71,7 @@ const allCourseTrigger=()=>{
         </Select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4">
-        {course_loading ? (
+        {false ? (
           <>
             {[1, 2, 3, 4, 5, 6].map((ele, index) => (
               <div
@@ -97,9 +88,9 @@ const allCourseTrigger=()=>{
           </>
         ) : (
           <>
-            {course?.data?.course?.length > 0 ? (
+            {courses.length > 0 ? (
               <>
-                {course?.data?.course?.map((course, index) => (
+                {courses?.map((course, index) => (
                   <div key={index}>
                     <CourseCard key={index} course={course} />
                   </div>
